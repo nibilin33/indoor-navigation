@@ -2,6 +2,7 @@
 indoor navigate demo
 
 ## 高德地图
+[api docs](https://lbs.amap.com/api/javascript-api/reference/indoormap) 
 [online map location query](https://maplocation.sjfkai.com/)
 ## 蜂鸟地图
 [api docs](https://developer.fengmap.com/develop-jsv3-download.html)
