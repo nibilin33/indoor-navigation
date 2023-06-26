@@ -3,21 +3,32 @@ import Loader from "@amap/amap-jsapi-loader";
 Loader.load({
   key: "2867cc38b67bdc7b831002d63464ba2c",
   version: "2.0",
-  plugins: ["AMap.Geocoder", "AMap.IndoorMap", "AMap.IndoorPath"],
+  plugins: ["AMap.Geocoder", "AMap.IndoorMap", "AMap.IndoorPath","AMap.TileLayer"],
 }).then((AMap) => {
-  // todo: Geocoder 方法查不出
-  const lng = 120.3362163838562,
-    lat = 30.308641096219432;
-  // 创建地图实例
-  const map = new AMap.Map("container", {
-    center: [lng, lat],
-    zoom: 18,
+ // 获取当前经纬度
+  navigator.geolocation.getCurrentPosition((position)=>{
+    console.log(position)
   });
-  const buildingId = "B0G26SKCJP";
-  const floorIds = "B1";
-  const indoorMapLayer = new AMap.IndoorMap(map);
-  // 室内地图无效
-  indoorMapLayer.showIndoorMap(buildingId, floorIds);
+  const buildingId = "B0FFG97JK0"; // 金沙印象城，无权限
+  const geocoder = new AMap.Geocoder({
+    city: '杭州市'
+  });
+  const indoorMap = new AMap.IndoorMap({alwaysShow:true});
+  const map = new AMap.Map("container", {
+      zoom: 18,
+      resizeEnable: true,
+      showIndoorMap:false,//隐藏地图自带的室内地图图层
+      layers:[indoorMap,new AMap.TileLayer()]
+  });
+  indoorMap.showIndoorMap('B000A856LJ'); // 官方开放的
+  geocoder.getLocation('杭州市钱塘区金沙大道97号杭州金沙印象城B1层',function(status, result){
+    if (result.info === 'OK') {
+        console.log(status)
+        const location = result.geocodes[0].location; // 获取地理编码的经纬度
+        //map.setCenter(location); // 将地图中心设置为地理编码的位置
+    }
+  })
+
   const clickResult = [];
   map.on("click", (e) => {
     const lnglat = e.lnglat; // 获取点击位置的经纬度

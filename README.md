@@ -2,7 +2,7 @@
 indoor navigate demo
 
 ## 高德地图
-
+[online map location query](https://maplocation.sjfkai.com/)
 ## 蜂鸟地图
 [api docs](https://developer.fengmap.com/develop-jsv3-download.html)
 [preview](https://nibilin33.github.io/indoor-navigation/fengmap.html)       
