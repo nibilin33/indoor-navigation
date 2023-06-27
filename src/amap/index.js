@@ -9,7 +9,7 @@ Loader.load({
   navigator.geolocation.getCurrentPosition((position)=>{
     console.log(position)
   });
-  const buildingId = "B0FFG97JK0"; // 金沙印象城，无权限，室内地图使用的建筑ID是需要申请的
+  const buildingId = "B0FFG97JK0"; // 金沙印象城，无室内地图
   const geocoder = new AMap.Geocoder({
     city: '杭州市'
   });
