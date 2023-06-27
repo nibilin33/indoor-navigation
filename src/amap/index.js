@@ -1,4 +1,13 @@
 import Loader from "@amap/amap-jsapi-loader";
+ 
+function getCurrentPosition(cords) {
+  window.requestAnimationFrame(()=>{
+    navigator.geolocation.getCurrentPosition((position)=>{
+       cords.innerHTML = `${position.coords.latitude},${position.coords.longitude}`
+       getCurrentPosition(cords)
+  });
+  })
+}
 // 加载高德地图JSAPI
 Loader.load({
   key: "2867cc38b67bdc7b831002d63464ba2c",
@@ -6,9 +15,8 @@ Loader.load({
   plugins: ["AMap.Geocoder", "AMap.IndoorMap", "AMap.IndoorPath","AMap.TileLayer"],
 }).then((AMap) => {
  // 获取当前经纬度
-  navigator.geolocation.getCurrentPosition((position)=>{
-    console.log(position)
-  });
+  const cords = document.getElementById('cords')
+  getCurrentPosition(cords);
   const buildingId = "B0FFG97JK0"; // 金沙印象城，无室内地图
   const geocoder = new AMap.Geocoder({
     city: '杭州市'
@@ -21,7 +29,7 @@ Loader.load({
       layers:[indoorMap,new AMap.TileLayer()]
   });
   // 开发的几个数据 B00190BPMZ, B000A856LJ，B0FFF3Z0H7-龙湖杭州金沙天街，B0FFHSBX71-来福士,B023B0A4ZD-万象城,B0H1267LGW-龙湖杭州滨江天街店
-  indoorMap.showIndoorMap('B0H1267LGW');
+  indoorMap.showIndoorMap('B023B0A4ZD');
   geocoder.getLocation('杭州市钱塘区金沙大道97号杭州金沙印象城B1层',function(status, result){
     if (result.info === 'OK') {
         console.log(status)
