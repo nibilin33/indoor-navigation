@@ -5,6 +5,8 @@ function getCurrentPosition(cords) {
     navigator.geolocation.getCurrentPosition((position)=>{
        cords.innerHTML = `${position.coords.latitude},${position.coords.longitude}`
        getCurrentPosition(cords)
+  },(e)=>{
+    cords.innerHTML = e.message
   });
   })
 }
