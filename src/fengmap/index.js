@@ -7,6 +7,14 @@ window.onload = function () {
     level: 1,
     mapZoom: 19,
   };
+  // const options = {
+  //   container: document.getElementById("container"),
+  //   appName: "tes",
+  //   key: "2a63f2fe46b5606afec431d263fc484b",
+  //   mapID: "1673491581458231298",
+  //   level: 1,
+  //   mapZoom: 19,
+  // };
   const simulateOptions = {
     // 模拟导肮相关参数
     speed: 7, // 模拟导航定位图标行进的速度, 单位m/s。默认7m/s。

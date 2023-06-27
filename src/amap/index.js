@@ -20,8 +20,8 @@ Loader.load({
       showIndoorMap:false,//隐藏地图自带的室内地图图层
       layers:[indoorMap,new AMap.TileLayer()]
   });
-  // 开发的几个数据 B00190BPMZ, B000A856LJ，B0FFF3Z0H7
-  indoorMap.showIndoorMap('B0FFF3Z0H7'); // 龙湖杭州金沙天街
+  // 开发的几个数据 B00190BPMZ, B000A856LJ，B0FFF3Z0H7-龙湖杭州金沙天街，B0FFHSBX71-来福士,B023B0A4ZD-万象城,B0H1267LGW-龙湖杭州滨江天街店
+  indoorMap.showIndoorMap('B0H1267LGW');
   geocoder.getLocation('杭州市钱塘区金沙大道97号杭州金沙印象城B1层',function(status, result){
     if (result.info === 'OK') {
         console.log(status)
