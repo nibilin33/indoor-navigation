@@ -1,15 +1,7 @@
 import Loader from "@amap/amap-jsapi-loader";
- 
-function getCurrentPosition(cords) {
-  window.requestAnimationFrame(()=>{
-    navigator.geolocation.getCurrentPosition((position)=>{
-       cords.innerHTML = `${position.coords.latitude},${position.coords.longitude}`
-       getCurrentPosition(cords)
-  },(e)=>{
-    cords.innerHTML = e.message
-  });
-  })
-}
+ import {
+  getCurrentPosition
+ } from './utils/nav';
 // 加载高德地图JSAPI
 Loader.load({
   key: "2867cc38b67bdc7b831002d63464ba2c",
