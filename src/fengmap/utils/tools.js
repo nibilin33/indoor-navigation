@@ -38,9 +38,43 @@ export function addTxtControl(map, gpos, txt) {
     //textMarker加载完回调函数
     callback: function () {
       // 在marker载入完成后，设置 "一直可见"，不被其他层遮挡
-      tm.alwaysShow()
+      tm.alwaysShow();
     },
   });
   //文本标注层添加文本Marker
   layer.addMarker(tm);
+}
+/**
+ * 距离、时间信息展示
+ * */
+export function setNaviDescriptions(navi,data) {
+  //距终点的距离
+  let distance = data.remain;
+  //路线提示信息
+  let prompt = navi.naviDescriptions[data.index];
+   //距离终点的最大距离，结束导航 单位：米
+  const maxEndDistance = 2;
+  if (distance < maxEndDistance) {
+    let descriptionDom = document.getElementById("description");
+    descriptionDom.innerHTML = "导航结束!";
+    return;
+  }
+  //普通人每分钟走80米。
+  let time = distance / 80;
+  let m = parseInt(time);
+  let s = Math.floor((time % 1) * 60);
+
+  //距离终点距离、时间信息展示
+  let descriptionDom = document.getElementById("description");
+  descriptionDom.innerHTML =
+    "<p>距终点：" +
+    distance.toFixed(1) +
+    " 米</p><p>大约需要：  " +
+    m +
+    "  分钟   " +
+    s +
+    "   秒</p><p>路线提示：" +
+    prompt +
+    " </p>";
+  descriptionDom.style.display = "block";
 }
