@@ -9,4 +9,14 @@
         .toolbox{
           display: flex;
           justify-content: center;
-        }</style><title>室内导航</title></head><body><div id="container"></div><div class="toolbox"><p>点击选择起点和终点</p><button>开始导航</button></div><p>当前经纬度：<span id="cords"></span></p><p>当前行走信息：<span id="description"></span></p><script defer="defer" src="/indoor-navigation/fengmap.4147cc3504f7c2c56e8d.js"></script></body></html>
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        button{
+          width: 200px;
+          height: 40px;
+          border-radius: 15px;
+          background-color: #0d0c0c;
+          color: white;
+        }</style><title>室内导航</title></head><body><div id="container"></div><div class="toolbox"><p>点击选择起点和终点</p><button data-type="setStart">设置当前位置为起点</button> <button data-type="navigate">开始导航</button></div><p>当前经纬度：<span id="cords"></span></p><p>转化后经纬度：<span id="transformer"></span></p><p>当前行走信息：<span id="description"></span></p><script defer="defer" src="/indoor-navigation/fengmap.57f023bb13a3e16850f6.js"></script></body></html>

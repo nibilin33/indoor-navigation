@@ -3,31 +3,24 @@ const fengmap = require("./lib/fengmap.core.min");
 require("./lib/fengmap.navi.min");
 require("./lib/fengmap.control.min");
 require("./lib/fengmap.analyzer.min");
+import * as config from './config'
+
 import {
   initFloorControl,
   addTxtControl,
   setNaviDescriptions,
 } from "./utils/tools";
+// fetch('https://restapi.amap.com/v3/assistant/coordinate/convert?key=d0e232c5ac6dd7ee32104f6c6d353da3&locations=104.195397,35.86166&coordsys=gps')
+// .then(async (res)=>{
+//   console.log(await res.json());
+// })
 window.onload = async function () {
-  // const options = {
-  //   container: document.getElementById("container"),
-  //   appName: "test",
-  //   key: "164c72e9cf1a3612802eb070cf9a75f6",
-  //   mapID: "1672189434932334594",
-  //   level: 1,
-  //   mapZoom: 19,
-  // };
   const cords = document.getElementById("cords");
-  const res = await getCurrentPosition(cords);
+  await getCurrentPosition(cords);
   let locationMarker  = null;
   const options = {
     container: document.getElementById("container"),
-    appName: "tes",
-    key: "2a63f2fe46b5606afec431d263fc484b",
-    mapID: "1673491581458231298",
-    themeID: "1673511068110753793",
-    mapZoom: 19,
-    // defaultThemeName: '1673511068110753793'
+    ...config.tesOptions
   };
   const simulateOptions = {
     lineStyle: {
@@ -55,18 +48,6 @@ window.onload = async function () {
     y: 3529653.7946467614,
   };
   const map = new fengmap.FMMap(options);
-  let lat = {
-    x: 113.36397527358434,
-    y: 22.91600484817306,
-  };
-  // const latlngToMap = fengmap.FMCalculator.latlngToMapCoordinate({
-  //   x: res.longitude,
-  //   y: res.latitude,
-  // });
-  // const distanceGap = {
-  //   x: latlngToMap.x - targetOrgin.x,
-  //   y: latlngToMap.y - targetOrgin.y,
-  // };
   map.openMapById(options.mapID, function (error) {
     //打印错误信息
     console.log(error);
@@ -75,26 +56,6 @@ window.onload = async function () {
   map.on("loadComplete", function () {
     //加载楼层切换控件
     initFloorControl(map);
-    locationMarker = new fengmap.FMLocationMarker({
-      //x坐标值
-      x: targetOrgin.x,
-      //y坐标值
-      y: targetOrgin.y,
-      //图片地址
-      url: "./person_first.png",
-      //楼层id
-      groupID: map.focusGroupID,
-      //图片尺寸
-      size: 48,
-      //marker标注高度
-      height: 3,
-      callback: function () {
-        //回调函数
-        console.log("定位点marker加载完成！");
-      },
-    });
-    //添加定位点marker
-    map.addLocationMarker(locationMarker);
   });
   let start = {
       level: 1,
@@ -175,11 +136,39 @@ window.onload = async function () {
     //移动locationMarker
     locationMarker.moveTo(data);
   }
-
-  window.addEventListener("click", (e) => {
-    const { target } = e;
-    if (target.nodeName === "BUTTON") {
-      // 画出导航线
+  const clickMap = {
+    'setStart': async ()=>{
+      console.log('setStart')
+      const res = await getCurrentPosition(cords);
+      const latlngToMap = fengmap.FMCalculator.WGS84ToWebMercator({x:res.longitude,y:res.latitude})
+      document.getElementById('transformer').innerHTML = `${JSON.stringify(latlngToMap)}`
+      const coordsTransformer = fengmap.FMCalculator.CoordTransform({
+        origon: [targetOrgin],
+        target: [{x:res.longitude,y:res.latitude}]
+      })
+      locationMarker = new fengmap.FMLocationMarker({
+        //x坐标值
+        x: latlngToMap.x,
+        //y坐标值
+        y: latlngToMap.y,
+        //图片地址
+        url: "./person_first.png",
+        //楼层id
+        groupID: map.focusGroupID,
+        //图片尺寸
+        size: 48,
+        //marker标注高度
+        height: 3,
+        callback: function () {
+          //回调函数
+          console.log("定位点marker加载完成！");
+        },
+      });
+      //添加定位点marker
+      map.addLocationMarker(locationMarker);
+      //map.relo(targetOrgin);
+    },
+    'navigate': ()=>{
       const navi = new fengmap.FMNavigation({ map: map, ...simulateOptions });
       navi.setStartPoint(start);
       navi.setEndPoint(dest);
@@ -191,6 +180,17 @@ window.onload = async function () {
         setNaviDescriptions(navi, data);
         setLocationMakerPosition(data.point, data.angle);
       });
+    }
+  }
+  window.addEventListener("click", (e) => {
+    const { target } = e;
+    if (target.nodeName === "BUTTON") {
+      const {
+        dataset
+      } = target;
+      if(dataset.type) {
+        clickMap[dataset.type]?.();
+      }
     }
   });
 };

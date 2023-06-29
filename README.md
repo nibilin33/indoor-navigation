@@ -6,7 +6,8 @@ indoor navigate demo
 [online map location query](https://maplocation.sjfkai.com/)            
 ## 蜂鸟地图
 [api docs](https://developer.fengmap.com/develop-jsv3-download.html)        
-[preview](https://nibilin33.github.io/indoor-navigation/fengmap.html)              
+[preview](https://nibilin33.github.io/indoor-navigation/fengmap.html)  
+[online demo](https://developer.fengmap.com/fmAPI/#/)               
 
 ## 易景室内三维地图     
 https://developers.weixin.qq.com/community/develop/article/doc/0008aa99a588b870be1932e5451813
