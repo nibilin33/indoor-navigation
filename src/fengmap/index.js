@@ -75,12 +75,13 @@ window.onload = async function () {
   map.on("mapClickNode", function (e) {
     clickCount++;
     const { mapCoord, target } = e;
+    console.log(mapCoord,target);
     document.getElementById("description").innerHTML = `${JSON.stringify(mapCoord)}`;
     if (clickCount % 2 !== 0) {
-      Object.assign(start, mapCoord, { groupID: target.groupID });
+      Object.assign(start, mapCoord, { groupID: target?.groupID || target?._groupId });
       addTxtControl(map, mapCoord, "起点");
     } else {
-      Object.assign(dest, mapCoord, { groupID: target.groupID });
+      Object.assign(dest, mapCoord, { groupID: target?.groupID || target?._groupId});
       addTxtControl(map, mapCoord, "终点");
     }
   });

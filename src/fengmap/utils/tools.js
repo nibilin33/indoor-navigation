@@ -22,9 +22,9 @@ export function addTxtControl(map, gpos, txt) {
   const layer = groupLayer.getOrCreateLayer("textMarker");
   const tm = new fengmap.FMTextMarker({
     //标注x坐标点
-    x: gpos.x,
+    x: gpos?.x || 0,
     //标注y坐标点
-    y: gpos.y,
+    y: gpos?.y || 0,
     //标注值
     name: txt,
     //文本标注填充色
