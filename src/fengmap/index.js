@@ -49,7 +49,7 @@ window.onload = async function () {
     x: 13380302.92444209,
     y: 3529653.7946467614,
   };
-  const map = new fengmap.FMMap(options);
+  let map = new fengmap.FMMap(options);
   map.openMapById(options.mapID, function (error) {
     //打印错误信息
     console.log(error);
@@ -201,6 +201,14 @@ window.onload = async function () {
       const input = document.getElementById("input");
       modifyLatitude = Number(input.value);
     },
+    reset: () => {
+      map.dispose();
+      map = new fengmap.FMMap(options);
+      map.openMapById(options.mapID, function (error) {
+        //打印错误信息
+        console.log(error);
+      });
+    }
   };
   window.addEventListener("click", (e) => {
     const { target } = e;

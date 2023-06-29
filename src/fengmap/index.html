@@ -26,8 +26,9 @@
         justify-content: center;
         align-items: center;
         flex-wrap: nowrap;
-        overflow-x: scroll;
         gap: 10px;
+        max-height: 25vh;
+        overflow: scroll;
       }
       .tool-latitude {
         flex: 1;
@@ -52,11 +53,13 @@
   </head>
   <body>
     <div id="container"></div>
+    <p>杭州市滨江区龙湖杭州滨江天街2F-A-30(江汉路地铁站D口旁)</p>
     <p>点击选择起点和终点</p>
     <div class="toolbox">
       <div class="tool-latitude">
         <button data-type="setStart">设置当前位置为起点</button>
         <button data-type="navigate">开始导航</button>
+        <button data-type="reset">重置</button>
       </div>
       <div class="tool-latitude">
         <input placeholder="当前经纬度数据eg:-1,1" id="input" />
