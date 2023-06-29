@@ -31,6 +31,10 @@
           color: white;
           cursor: pointer;
         }
+        input{
+          height: 40px;
+          border-radius: 15px;
+        }
   </style>
   <title>室内导航</title>
 </head>
@@ -40,6 +44,11 @@
     <p>点击选择起点和终点</p>
     <button data-type="setStart">设置当前位置为起点</button>
     <button data-type="navigate">开始导航</button>
+    <div>
+      <input id="input"/>
+      <button data-type="addLongitude">调整经度</button>
+      <button data-type="addLatitude">调整经度</button>
+    </div>
   </div>
   <p>当前经纬度：<span id="cords"></span></p>
   <p>转化后经纬度：<span id="transformer"></span></p>

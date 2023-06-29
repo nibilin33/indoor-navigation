@@ -3,7 +3,7 @@ const fengmap = require("./lib/fengmap.core.min");
 require("./lib/fengmap.navi.min");
 require("./lib/fengmap.control.min");
 require("./lib/fengmap.analyzer.min");
-import * as config from './config'
+import * as config from "./config";
 
 import {
   initFloorControl,
@@ -16,12 +16,14 @@ import {
 // })
 window.onload = async function () {
   const cords = document.getElementById("cords");
-  await getCurrentPosition(cords);
-  let locationMarker  = null;
+  getCurrentPosition(cords);
+  let locationMarker = null;
   const options = {
     container: document.getElementById("container"),
-    ...config.tesOptions
+    ...config.tesOptions,
   };
+  let modifylongitude = 0,
+    modifyLatitude = 0;
   const simulateOptions = {
     lineStyle: {
       // 导航线样式
@@ -73,7 +75,7 @@ window.onload = async function () {
   map.on("mapClickNode", function (e) {
     clickCount++;
     const { mapCoord, target } = e;
-    console.log(mapCoord);
+    document.getElementById("description").innerHTML = `${JSON.stringify(mapCoord)}`;
     if (clickCount % 2 !== 0) {
       Object.assign(start, mapCoord, { groupID: target.groupID });
       addTxtControl(map, mapCoord, "起点");
@@ -137,15 +139,21 @@ window.onload = async function () {
     locationMarker.moveTo(data);
   }
   const clickMap = {
-    'setStart': async ()=>{
-      console.log('setStart')
+    setStart: async () => {
+      console.log("setStart");
       const res = await getCurrentPosition(cords);
-      const latlngToMap = fengmap.FMCalculator.WGS84ToWebMercator({x:res.longitude,y:res.latitude})
-      document.getElementById('transformer').innerHTML = `${JSON.stringify(latlngToMap)}`
+      console.log(res);
+      let latlngToMap = fengmap.FMCalculator.WGS84ToWebMercator({
+        x: res.longitude + modifylongitude,
+        y: res.latitude + modifyLatitude,
+      });
+      document.getElementById("transformer").innerHTML = `${JSON.stringify(
+        latlngToMap
+      )}`;
       const coordsTransformer = fengmap.FMCalculator.CoordTransform({
         origon: [targetOrgin],
-        target: [{x:res.longitude,y:res.latitude}]
-      })
+        target: [{ x: res.longitude, y: res.latitude }],
+      });
       locationMarker = new fengmap.FMLocationMarker({
         //x坐标值
         x: latlngToMap.x,
@@ -170,9 +178,8 @@ window.onload = async function () {
       clickCount++;
       Object.assign(start, latlngToMap);
       addTxtControl(map, start, "起点");
-
     },
-    'navigate': ()=>{
+    navigate: () => {
       const navi = new fengmap.FMNavigation({ map: map, ...simulateOptions });
       navi.setStartPoint(start);
       navi.setEndPoint(dest);
@@ -184,15 +191,21 @@ window.onload = async function () {
         setNaviDescriptions(navi, data);
         setLocationMakerPosition(data.point, data.angle);
       });
-    }
-  }
+    },
+    addLongitude: () => {
+      const input = document.getElementById("input");
+      modifylongitude = Number(input.value);
+    },
+    addLatitude: () => {
+      const input = document.getElementById("input");
+      modifyLatitude = Number(input.value);
+    },
+  };
   window.addEventListener("click", (e) => {
     const { target } = e;
     if (target.nodeName === "BUTTON") {
-      const {
-        dataset
-      } = target;
-      if(dataset.type) {
+      const { dataset } = target;
+      if (dataset.type) {
         clickMap[dataset.type]?.();
       }
     }
