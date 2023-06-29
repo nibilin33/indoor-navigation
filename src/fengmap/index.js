@@ -54,11 +54,28 @@ window.onload = async function () {
     //打印错误信息
     console.log(error);
   });
-  //地图加载完成事件
-  map.on("loadComplete", function () {
-    //加载楼层切换控件
-    initFloorControl(map);
-  });
+
+  function initMap(map) {
+    //地图加载完成事件
+    map.on("loadComplete", function () {
+      //加载楼层切换控件
+      initFloorControl(map);
+    });
+    map.on("mapClickNode", function (e) {
+      clickCount++;
+      const { mapCoord, target } = e;
+      console.log(mapCoord,target);
+      document.getElementById("description").innerHTML = `${JSON.stringify(mapCoord)}`;
+      if (clickCount % 2 !== 0) {
+        Object.assign(start, mapCoord, { groupID: target?.groupID || target?._groupId });
+        addTxtControl(map, mapCoord, "起点");
+      } else {
+        Object.assign(dest, mapCoord, { groupID: target?.groupID || target?._groupId});
+        addTxtControl(map, mapCoord, "终点");
+      }
+    });
+  }
+  initMap(map)
   let start = {
       level: 1,
       url: "https://developer.fengmap.com/fmAPI/images/start.png",
@@ -72,19 +89,7 @@ window.onload = async function () {
       height: 0.5,
     };
   let clickCount = 0;
-  map.on("mapClickNode", function (e) {
-    clickCount++;
-    const { mapCoord, target } = e;
-    console.log(mapCoord,target);
-    document.getElementById("description").innerHTML = `${JSON.stringify(mapCoord)}`;
-    if (clickCount % 2 !== 0) {
-      Object.assign(start, mapCoord, { groupID: target?.groupID || target?._groupId });
-      addTxtControl(map, mapCoord, "起点");
-    } else {
-      Object.assign(dest, mapCoord, { groupID: target?.groupID || target?._groupId});
-      addTxtControl(map, mapCoord, "终点");
-    }
-  });
+
   /**
    * 设置定位标注点位置信息
    * */
@@ -208,6 +213,7 @@ window.onload = async function () {
         //打印错误信息
         console.log(error);
       });
+      initMap(map)
     }
   };
   window.addEventListener("click", (e) => {
