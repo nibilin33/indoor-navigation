@@ -167,6 +167,10 @@ window.onload = async function () {
       //添加定位点marker
       map.addLocationMarker(locationMarker);
       //map.relo(targetOrgin);
+      clickCount++;
+      Object.assign(start, latlngToMap);
+      addTxtControl(map, start, "起点");
+
     },
     'navigate': ()=>{
       const navi = new fengmap.FMNavigation({ map: map, ...simulateOptions });
