@@ -11,5 +11,5 @@ export const tesOptions = {
     mapID: "1673491581458231298",
     themeID: "1673511068110753793",
     mapZoom: 19,
-    // defaultThemeName: '1673511068110753793'
+    defaultThemeName: '1673511068110753793'
 }
