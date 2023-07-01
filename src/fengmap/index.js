@@ -64,18 +64,47 @@ window.onload = async function () {
     map.on("mapClickNode", function (e) {
       clickCount++;
       const { mapCoord, target } = e;
-      console.log(mapCoord,target);
-      document.getElementById("description").innerHTML = `${JSON.stringify(mapCoord)}`;
+      console.log(mapCoord, target);
+      document.getElementById("description").innerHTML = `${JSON.stringify(
+        mapCoord
+      )}`;
       if (clickCount % 2 !== 0) {
-        Object.assign(start, mapCoord, { groupID: target?.groupID || target?._groupId });
+        Object.assign(start, mapCoord, {
+          groupID: target?.groupID || target?._groupId,
+        });
         addTxtControl(map, mapCoord, "起点");
+        console.log(mapCoord, "fuckkkk");
+        if (!locationMarker) {
+          locationMarker = new fengmap.FMLocationMarker({
+            //x坐标值
+            x: mapCoord.x,
+            //y坐标值
+            y: mapCoord.y,
+            //图片地址
+            url: "./person_first.png",
+            //楼层id
+            groupID: map.focusGroupID,
+            //图片尺寸
+            size: 48,
+            //marker标注高度
+            height: 3,
+            callback: function () {
+              //回调函数
+              console.log("定位点marker加载完成！");
+            },
+          });
+          //添加定位点marker
+          map.addLocationMarker(locationMarker);
+        }
       } else {
-        Object.assign(dest, mapCoord, { groupID: target?.groupID || target?._groupId});
+        Object.assign(dest, mapCoord, {
+          groupID: target?.groupID || target?._groupId,
+        });
         addTxtControl(map, mapCoord, "终点");
       }
     });
   }
-  initMap(map)
+  initMap(map);
   let start = {
       level: 1,
       url: "https://developer.fengmap.com/fmAPI/images/start.png",
@@ -160,6 +189,7 @@ window.onload = async function () {
         origon: [targetOrgin],
         target: [{ x: res.longitude, y: res.latitude }],
       });
+      console.log(latlngToMap, "current Position");
       locationMarker = new fengmap.FMLocationMarker({
         //x坐标值
         x: latlngToMap.x,
@@ -182,7 +212,7 @@ window.onload = async function () {
       map.addLocationMarker(locationMarker);
       //map.relo(targetOrgin);
       clickCount++;
-      Object.assign(start, latlngToMap);
+      Object.assign(start, latlngToMap, { groupID: map.focusGroupID });
       addTxtControl(map, start, "起点");
     },
     navigate: () => {
@@ -213,8 +243,8 @@ window.onload = async function () {
         //打印错误信息
         console.log(error);
       });
-      initMap(map)
-    }
+      initMap(map);
+    },
   };
   window.addEventListener("click", (e) => {
     const { target } = e;
