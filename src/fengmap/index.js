@@ -223,7 +223,7 @@ window.onload = async function () {
       // navi.simulate();
       // 设置导航事件
       navi.on("walking", function (data) {
-        console.log(data);
+        console.log(data,'walking');
         setNaviDescriptions(navi, data);
         setLocationMakerPosition(data.point, data.angle);
       });

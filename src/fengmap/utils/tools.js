@@ -47,12 +47,12 @@ export function addTxtControl(map, gpos, txt) {
 /**
  * 距离、时间信息展示
  * */
-export function setNaviDescriptions(navi,data) {
+export function setNaviDescriptions(navi, data) {
   //距终点的距离
   let distance = data.remain;
   //路线提示信息
   let prompt = navi.naviDescriptions[data.index];
-   //距离终点的最大距离，结束导航 单位：米
+  //距离终点的最大距离，结束导航 单位：米
   const maxEndDistance = 2;
   if (distance < maxEndDistance) {
     let descriptionDom = document.getElementById("description");
@@ -77,4 +77,28 @@ export function setNaviDescriptions(navi,data) {
     prompt +
     " </p>";
   descriptionDom.style.display = "block";
+}
+export function addMovingEvent(navi) {
+  // setInterval(async ()=>{
+  //   const res = await getCurrentPosition(cords);
+  //   console.log(res);
+  //   let latlngToMap = fengmap.FMCalculator.WGS84ToWebMercator({
+  //     x: res.longitude,
+  //     y: res.latitude,
+  //   });
+  //   setLocationMakerPosition(Object.assign(latlngToMap,{groupID:map.focusGroupID}), 0);
+  // }, 1000)
+  if (window.DeviceOrientationEvent) {
+    // 浏览器支持DeviceOrientation事件
+  } else {
+    // 浏览器不支持DeviceOrientation事件
+  }
+  // navi.dispatchEvent({
+  //   type: 'walking',
+  //   angle: 1,
+  //   point: {
+  //     x: 11,
+  //     y: 22
+  //   }
+  // })
 }
