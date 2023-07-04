@@ -95,16 +95,19 @@ export function addMovingEvent(navi) {
       const x = event.accelerationIncludingGravity.x;
       const y = event.accelerationIncludingGravity.y;
       const z = event.accelerationIncludingGravity.z;
-      description.innerHTML = `${x} : ${y} : ${z}`
+      description.innerHTML = `devicemotion: ${x} : ${y} : ${z}`
     }, true);
     // 浏览器支持DeviceOrientation事件
     window.addEventListener("deviceorientation", (event) => {
       console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
-      description.innerHTML = `${event.alpha} : ${event.beta} : ${event.gamma}`
+      description.innerHTML = `deviceorientation: ${event.alpha} : ${event.beta} : ${event.gamma}`
     });
   } else {
     // 浏览器不支持DeviceOrientation事件
-    alert('not support DeviceOrientationEvent')
+    description.innerHTML = `not support DeviceOrientationEvent`
+  }
+  if(!window.DeviceMotionEventAcceleration) {
+    description.innerHTML = description.innerHTML + `;not support DeviceMotionEventAcceleration`
   }
   // navi.dispatchEvent({
   //   type: 'walking',
