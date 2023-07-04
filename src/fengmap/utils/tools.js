@@ -88,10 +88,23 @@ export function addMovingEvent(navi) {
   //   });
   //   setLocationMakerPosition(Object.assign(latlngToMap,{groupID:map.focusGroupID}), 0);
   // }, 1000)
+  const description = document.getElementById('description');
+  description.innerHTML = `监听设备运动`
   if (window.DeviceOrientationEvent) {
+    window.addEventListener("devicemotion", (event)=>{
+      const x = event.accelerationIncludingGravity.x;
+      const y = event.accelerationIncludingGravity.y;
+      const z = event.accelerationIncludingGravity.z;
+      description.innerHTML = `${x} : ${y} : ${z}`
+    }, true);
     // 浏览器支持DeviceOrientation事件
+    window.addEventListener("deviceorientation", (event) => {
+      console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
+      description.innerHTML = `${event.alpha} : ${event.beta} : ${event.gamma}`
+    });
   } else {
     // 浏览器不支持DeviceOrientation事件
+    alert('not support DeviceOrientationEvent')
   }
   // navi.dispatchEvent({
   //   type: 'walking',

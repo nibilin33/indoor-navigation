@@ -9,6 +9,7 @@ import {
   initFloorControl,
   addTxtControl,
   setNaviDescriptions,
+  addMovingEvent
 } from "./utils/tools";
 // fetch('https://restapi.amap.com/v3/assistant/coordinate/convert?key=d0e232c5ac6dd7ee32104f6c6d353da3&locations=104.195397,35.86166&coordsys=gps')
 // .then(async (res)=>{
@@ -185,10 +186,10 @@ window.onload = async function () {
       document.getElementById("transformer").innerHTML = `${JSON.stringify(
         latlngToMap
       )}`;
-      const coordsTransformer = fengmap.FMCalculator.CoordTransform({
-        origon: [targetOrgin],
-        target: [{ x: res.longitude, y: res.latitude }],
-      });
+      // const coordsTransformer = fengmap.FMCalculator.CoordTransform({
+      //   origon: [targetOrgin],
+      //   target: [{ x: res.longitude, y: res.latitude }],
+      // });
       console.log(latlngToMap, "current Position");
       locationMarker = new fengmap.FMLocationMarker({
         //x坐标值
@@ -220,6 +221,7 @@ window.onload = async function () {
       navi.setStartPoint(start);
       navi.setEndPoint(dest);
       navi.drawNaviLine();
+      addMovingEvent(navi);
       // navi.simulate();
       // 设置导航事件
       navi.on("walking", function (data) {
